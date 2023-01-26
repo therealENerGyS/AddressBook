@@ -1,6 +1,7 @@
 ﻿using AddressBook.Services;
 using AddressBookWPF.MVVM.Models;
 using AddressBookWPF.MVVM.Views;
+using AddressBookWPF.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -16,15 +17,13 @@ namespace AddressBookWPF.MVVM.ViewModels
 {
     public partial class ShowContactsViewModel : ObservableObject
     {
-        private readonly FileService file;
-        public ShowContactsViewModel()
-        {
-            file = new FileService();
-            contacts = file.Contacts();
-        }
 
         [ObservableProperty]
         private string title = "Contact List";
+
+        [ObservableProperty]
+        private ObservableCollection<ContactModel> contacts = ContactService.Contacts();
+
 
         [ObservableProperty]
         private string firstName = string.Empty;
@@ -41,13 +40,5 @@ namespace AddressBookWPF.MVVM.ViewModels
         [ObservableProperty]
         private string city = string.Empty;
 
-        [ObservableProperty]
-        private ObservableCollection<ContactModel> contacts;
-
-        [RelayCommand]
-        private void Remove(ContactModel contact)
-        {
-            file.RemoveFromList(contact);
-        }
     }
 }

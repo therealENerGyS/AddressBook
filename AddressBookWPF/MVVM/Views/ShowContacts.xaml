@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:AddressBookWPF.MVVM.Views"
              xmlns:viewmodel="clr-namespace:AddressBookWPF.MVVM.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodel:ShowContactsViewModel}"
+             xmlns:models="clr-namespace:AddressBookWPF.MVVM.Models"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -22,7 +23,7 @@
 
         <ListView x:Name="lv_ContactList" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Contacts}" SelectionChanged="ListView_SelectionChanged">
             <ListView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate DataType="{x:Type models:ContactModel}">
                     <TextBlock Text="{Binding DisplayName}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -35,7 +36,7 @@
             <TextBlock x:Name="tb_StreetName" Text="{Binding StreetName}" FontSize="22" FontWeight="Medium" />
             <TextBlock x:Name="tb_PostalCode" Text="{Binding PostalCode}" FontSize="22" FontWeight="Medium" />
             <TextBlock x:Name="tb_City" Text="{Binding City}" FontSize="22" FontWeight="Medium" />
-            <Button Content="Remove Contact" Padding="8" Click="Button_Click"/>
+            <Button x:Name="btn_Remove" Content="Remove Contact" Padding="8" Click="btn_Remove_Click"/>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -1,5 +1,6 @@
 ﻿using AddressBook.Services;
 using AddressBookWPF.MVVM.Models;
+using AddressBookWPF.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,7 +30,7 @@ namespace AddressBookWPF.MVVM.Views
         {
             InitializeComponent();
             file = new FileService();
-            ContactList = (ObservableCollection<ContactModel>)(file.Contacts());
+            ContactList = file.Contacts();
         }
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -49,15 +50,12 @@ namespace AddressBookWPF.MVVM.Views
             }
         }
         
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void btn_Remove_Click(object sender, RoutedEventArgs e)
         {
-            foreach (ContactModel item in lv_ContactList.Items)
-            {
-                if (lv_ContactList.SelectedItem == item)
-                {
-                    MessageBox.Show(item.FirstName);
-                }
-            }
+            var button = (Button)sender;
+            var contact = (ContactModel)button.DataContext;
+
+            MessageBox.Show(contact.DisplayName);
         }
     }
 }
