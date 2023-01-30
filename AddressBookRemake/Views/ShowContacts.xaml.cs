@@ -24,14 +24,10 @@ namespace AddressBookRemake.Views
     public partial class ShowContacts : UserControl
     {
         private readonly FileService file;
-        public ObservableCollection<Contact> contacts { get; set; }
         public ShowContacts()
         {
             InitializeComponent();
             file = new FileService();
-            contacts = (ObservableCollection<Contact>)file.Contacts();
-
-            lv_ContactList.ItemsSource = contacts;
         }
 
         private void Lv_ContactList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -59,13 +55,13 @@ namespace AddressBookRemake.Views
 
         public void Btn_Remove_Click(object sender, RoutedEventArgs e)
         {
-            var selectedContact = lv_ContactList.SelectedItem as Contact;
-            if (selectedContact != null)
+            var contact = lv_ContactList.SelectedItem as Contact;
+            if (contact != null)
             {
                 var result = MessageBox.Show("Are you sure you want to delete this contact?", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    file.RemoveFromList(selectedContact);
+                    file.RemoveFromList(contact);
                     lv_ContactList.Items.Refresh();
                 }
             }

@@ -5,28 +5,40 @@ namespace AddressBook.Services
 {
     internal class Menu
     {
-        private readonly List<Contact> contacts = new();
+        private List<Contact> contacts = new();
         private readonly FileService file = new();
         public string FilePath { get; set; } = null!;
 
         public void MainMenu()
         {
+            try
+            {
+                using var sr = new StreamReader(FilePath);
+                contacts = JsonConvert.DeserializeObject<List<Contact>>(sr.ReadToEnd())!;
+            }
+            catch { contacts = new List<Contact>(); }
             Console.Write("Welcome to the Address book, please choose one of the following: \n" +
             "1. Create a Contact. \n" +
             "2. Display all Contacts. \n" +
             "3. Display a specific Contact. \n" +
             "4. Remove a Contact. \n" +
             "0. Quit application. \n");
-            int userInput = int.Parse(Console.ReadLine()!);
-            Console.Clear();
-            switch (userInput)
+            if (Int32.TryParse(Console.ReadLine(), out int input))
             {
-                case 1: OptionOne(); break;
-                case 2: OptionTwo(); break;
-                case 3: OptionThree(); break;
-                case 4: OptionFour(); break;
-                case 0: Exit(); break;
-                default: Console.WriteLine("Please choose between 0-4"); break;
+                Console.Clear();
+                switch (input)
+                {
+                    case 1: OptionOne(); break;
+                    case 2: OptionTwo(); break;
+                    case 3: OptionThree(); break;
+                    case 4: OptionFour(); break;
+                    case 0: Exit(); break;
+                    default: Console.WriteLine("Please choose between 0-4"); break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Please input a number between 0-4");
             }
         }
 
@@ -49,46 +61,63 @@ namespace AddressBook.Services
             contact.Email = Console.ReadLine()!;
             Console.Clear();
             Console.Write("Phone number: ");
-            contact.PhoneNumber = int.Parse(Console.ReadLine()!);
+            contact.PhoneNumber = Console.ReadLine()!;
             Console.Clear();
             Console.Write("Address: ");
             contact.Address = Console.ReadLine()!;
             Console.Clear();
             Console.Write("Postal Code: ");
-            contact.PostalCode = int.Parse(Console.ReadLine()!);
+            contact.PostalCode = Console.ReadLine()!;
             Console.Clear();
             Console.Write("City: ");
             contact.City = Console.ReadLine()!;
-            Console.WriteLine($"{contact.FirstName} {contact.LastName} was successfully added to the address book.");
             contacts.Add(contact);
-            Console.ReadLine();
+
+            using var sw = new StreamWriter(FilePath);
+            sw.WriteLine(JsonConvert.SerializeObject(contacts));
+
+            Console.WriteLine($"{contact.FirstName} {contact.LastName} was successfully added to the address book.");
+            Console.ReadKey();
             Console.Clear();
-            file.Save(FilePath, JsonConvert.SerializeObject(new { contacts }));
         }
 
         private void OptionTwo()
         {
-            file.Read(FilePath);
-            Console.WriteLine("Showing all Contacts.");
-            if (contacts.Count > 0)
+            try
             {
-                foreach (Contact person in contacts)
-                {
-                    if (person.Email == "")
-                    {
-                        Console.WriteLine($"{person.FirstName} {person.LastName}");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"{person.FirstName} {person.LastName} <{person.Email}>");
-                    }
+                using var sr = new StreamReader(FilePath);
+                contacts = JsonConvert.DeserializeObject<List<Contact>>(sr.ReadToEnd())!;
+            }
+            catch { contacts = new List<Contact>(); }
 
+            Console.WriteLine("Showing all Contacts.");
+            if (contacts != null)
+            {
+                if (contacts.Count > 0)
+                {
+                    foreach (Contact person in contacts)
+                    {
+                        if (person.Email == "")
+                        {
+                            Console.WriteLine($"{person.FirstName} {person.LastName}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"{person.FirstName} {person.LastName} <{person.Email}>");
+                        }
+
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Address Book is Empty.");
                 }
             }
             else
             {
                 Console.WriteLine("Address Book is Empty.");
             }
+            Console.ReadKey();
             Console.Clear();
         }
 
@@ -135,9 +164,9 @@ namespace AddressBook.Services
                     {
                         if (contacts[i].Email.Length == 0)
                         {
-                            if (contacts[i].PhoneNumber == 0)
+                            if (contacts[i].PhoneNumber.Length == 0)
                             {
-                                if (contacts[i].Address.Length == 0 || contacts[i].PostalCode < 1 || contacts[i].City.Length == 0)
+                                if (contacts[i].Address.Length == 0 || contacts[i].PostalCode.Length == 0 || contacts[i].City.Length == 0)
                                 {
                                     Console.WriteLine($"The Contact was found successfully: \n" +
                                     $"First name: {sameFirstName[i].FirstName} \n" +
@@ -151,9 +180,9 @@ namespace AddressBook.Services
                                     $"Address: {sameFirstName[i].Address}, {sameFirstName[i].PostalCode} {sameFirstName[i].City}");
                                 }
                             }
-                            else if (contacts[i].Address.Length == 0 || contacts[i].PostalCode < 1 || contacts[i].City.Length == 0)
+                            else if (contacts[i].Address.Length == 0 || contacts[i].PostalCode.Length == 0 || contacts[i].City.Length == 0)
                             {
-                                if (contacts[i].PhoneNumber == 0)
+                                if (contacts[i].PhoneNumber.Length == 0)
                                 {
                                     Console.WriteLine($"The Contact was found successfully: \n" +
                                     $"First name: {sameFirstName[i].FirstName} \n" +
@@ -176,11 +205,11 @@ namespace AddressBook.Services
                                 $"Address: {sameFirstName[i].Address}, {sameFirstName[i].PostalCode} {sameFirstName[i].City}");
                             }
                         }
-                        else if (contacts[i].PhoneNumber == 0)
+                        else if (contacts[i].PhoneNumber.Length == 0)
                         {
                             if (contacts[i].Email.Length == 0)
                             {
-                                if (contacts[i].Address.Length == 0 || contacts[i].PostalCode < 1 || contacts[i].City.Length == 0)
+                                if (contacts[i].Address.Length == 0 || contacts[i].PostalCode.Length == 0 || contacts[i].City.Length == 0)
                                 {
                                     Console.WriteLine($"The Contact was found successfully: \n" +
                                     $"First name: {sameFirstName[i].FirstName} \n" +
@@ -194,7 +223,7 @@ namespace AddressBook.Services
                                     $"Address: {sameFirstName[i].Address}, {sameFirstName[i].PostalCode} {sameFirstName[i].City}");
                                 }
                             }
-                            else if (contacts[i].Address.Length == 0 || contacts[i].PostalCode < 1 || contacts[i].City.Length == 0)
+                            else if (contacts[i].Address.Length == 0 || contacts[i].PostalCode.Length == 0 || contacts[i].City.Length == 0)
                             {
                                 if (contacts[i].Email.Length == 0)
                                 {
@@ -219,9 +248,9 @@ namespace AddressBook.Services
                                 $"Address: {sameFirstName[i].Address}, {sameFirstName[i].PostalCode} {sameFirstName[i].City}");
                             }
                         }
-                        else if (contacts[i].Address.Length == 0 || contacts[i].PostalCode < 1 || contacts[i].City.Length == 0)
+                        else if (contacts[i].Address.Length == 0 || contacts[i].PostalCode.Length == 0 || contacts[i].City.Length == 0)
                         {
-                            if (contacts[i].PhoneNumber == 0)
+                            if (contacts[i].PhoneNumber.Length == 0)
                             {
                                 if (contacts[i].Email.Length == 0)
                                 {
@@ -239,7 +268,7 @@ namespace AddressBook.Services
                             }
                             else if (contacts[i].Email.Length == 0)
                             {
-                                if (contacts[i].PhoneNumber == 0)
+                                if (contacts[i].PhoneNumber.Length == 0)
                                 {
                                     Console.WriteLine($"The Contact was found successfully: \n" +
                                     $"First name: {sameFirstName[i].FirstName} \n" +
@@ -278,6 +307,7 @@ namespace AddressBook.Services
             else
             {
                 Console.WriteLine("\nThe Address book is empty. Please add a contact first.");
+                Console.ReadKey();
             }
             Console.Clear();
         }
@@ -287,6 +317,7 @@ namespace AddressBook.Services
             Console.WriteLine("Contact Removal \n" +
                 "Type in the first name of the contact: ");
             string removeFirstName = Console.ReadLine()!;
+            Console.Clear();
             List<Contact> removeSameFirstName = new();
 
             for (int i = 0; i < contacts.Count; i++)
@@ -325,9 +356,9 @@ namespace AddressBook.Services
                 {
                     if (contacts[i].Email.Length == 0)
                     {
-                        if (contacts[i].PhoneNumber == 0)
+                        if (contacts[i].PhoneNumber.Length == 0)
                         {
-                            if (contacts[i].Address.Length == 0 || contacts[i].PostalCode < 1 || contacts[i].City.Length == 0)
+                            if (contacts[i].Address.Length == 0 || contacts[i].PostalCode.Length == 0 || contacts[i].City.Length == 0)
                             {
                                 Console.WriteLine($"The Contact was found successfully: \n" +
                                 $"First name: {removeSameFirstName[i].FirstName} \n" +
@@ -341,9 +372,9 @@ namespace AddressBook.Services
                                 $"Address: {removeSameFirstName[i].Address}, {removeSameFirstName[i].PostalCode} {removeSameFirstName[i].City}");
                             }
                         }
-                        else if (contacts[i].Address.Length == 0 || contacts[i].PostalCode < 1 || contacts[i].City.Length == 0)
+                        else if (contacts[i].Address.Length == 0 || contacts[i].PostalCode.Length == 0 || contacts[i].City.Length == 0)
                         {
-                            if (contacts[i].PhoneNumber == 0)
+                            if (contacts[i].PhoneNumber.Length == 0)
                             {
                                 Console.WriteLine($"The Contact was found successfully: \n" +
                                 $"First name: {removeSameFirstName[i].FirstName} \n" +
@@ -366,11 +397,11 @@ namespace AddressBook.Services
                             $"Address: {removeSameFirstName[i].Address}, {removeSameFirstName[i].PostalCode} {removeSameFirstName[i].City}");
                         }
                     }
-                    else if (contacts[i].PhoneNumber == 0)
+                    else if (contacts[i].PhoneNumber.Length == 0)
                     {
                         if (contacts[i].Email.Length == 0)
                         {
-                            if (contacts[i].Address.Length == 0 || contacts[i].PostalCode < 1 || contacts[i].City.Length == 0)
+                            if (contacts[i].Address.Length == 0 || contacts[i].PostalCode.Length == 0 || contacts[i].City.Length == 0)
                             {
                                 Console.WriteLine($"The Contact was found successfully: \n" +
                                 $"First name: {removeSameFirstName[i].FirstName} \n" +
@@ -384,7 +415,7 @@ namespace AddressBook.Services
                                 $"Address: {removeSameFirstName[i].Address}, {removeSameFirstName[i].PostalCode} {removeSameFirstName[i].City}");
                             }
                         }
-                        else if (contacts[i].Address.Length == 0 || contacts[i].PostalCode < 1 || contacts[i].City.Length == 0)
+                        else if (contacts[i].Address.Length == 0 || contacts[i].PostalCode.Length == 0 || contacts[i].City.Length == 0)
                         {
                             if (contacts[i].Email.Length == 0)
                             {
@@ -409,9 +440,9 @@ namespace AddressBook.Services
                             $"Address: {removeSameFirstName[i].Address}, {removeSameFirstName[i].PostalCode} {removeSameFirstName[i].City}");
                         }
                     }
-                    else if (contacts[i].Address.Length == 0 || contacts[i].PostalCode < 1 || contacts[i].City.Length == 0)
+                    else if (contacts[i].Address.Length == 0 || contacts[i].PostalCode.Length == 0 || contacts[i].City.Length == 0)
                     {
-                        if (contacts[i].PhoneNumber == 0)
+                        if (contacts[i].PhoneNumber.Length == 0)
                         {
                             if (contacts[i].Email.Length == 0)
                             {
@@ -429,7 +460,7 @@ namespace AddressBook.Services
                         }
                         else if (contacts[i].Email.Length == 0)
                         {
-                            if (contacts[i].PhoneNumber == 0)
+                            if (contacts[i].PhoneNumber.Length == 0)
                             {
                                 Console.WriteLine($"The Contact was found successfully: \n" +
                                 $"First name: {removeSameFirstName[i].FirstName} \n" +
@@ -465,12 +496,19 @@ namespace AddressBook.Services
                     if (Console.ReadKey().Key == ConsoleKey.Y)
                     {
                         contacts.Remove(removeSameFirstName[i]);
+
+                        using var sw = new StreamWriter(FilePath);
+                        sw.WriteLine(JsonConvert.SerializeObject(contacts));
+
+                        Console.Clear();
                         Console.WriteLine("The Contact has been removed.");
                         Console.ReadKey();
+
                         break;
                     }
                     else if (Console.ReadKey().Key == ConsoleKey.N)
                     {
+                        Console.Clear();
                         Console.WriteLine("The Contact was not removed");
                         Console.ReadKey();
                         break;
