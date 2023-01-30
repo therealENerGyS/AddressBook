@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using AddressBookWPF.MVVM.ViewModels;
+using AddressBookRemake.ViewModels;
 
-namespace AddressBookWPF
+namespace AddressBookRemake
 {
     /// <summary>
     /// Interaction logic for App.xaml

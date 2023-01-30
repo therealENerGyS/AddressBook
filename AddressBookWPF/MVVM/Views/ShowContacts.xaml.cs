@@ -1,21 +1,9 @@
 ﻿using AddressBook.Services;
 using AddressBookWPF.MVVM.Models;
-using AddressBookWPF.Services;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace AddressBookWPF.MVVM.Views
 {
@@ -25,12 +13,9 @@ namespace AddressBookWPF.MVVM.Views
     public partial class ShowContacts : UserControl
     {
         private readonly FileService file;
-        private ObservableCollection<ContactModel> ContactList { get; set; }
         public ShowContacts()
         {
             InitializeComponent();
-            file = new FileService();
-            ContactList = file.Contacts();
         }
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -53,9 +38,35 @@ namespace AddressBookWPF.MVVM.Views
         private void btn_Remove_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
-            var contact = (ContactModel)button.DataContext;
+            var contact = button.DataContext as ContactModel;
 
-            MessageBox.Show(contact.DisplayName);
+            MessageBox.Show($"Are you sure you wish to delete this contact: {contact!.DisplayName}");
+            file.RemoveFromList(contact);
+        }
+
+        private void btn_Edit_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedContact = lv_ContactList.SelectedItem as ContactModel;
+            if(selectedContact != null)
+            {
+                selectedContact.FirstName = tb_FirstName.Text;
+                selectedContact.LastName = tb_LastName.Text;
+                selectedContact.Email = tb_Email.Text;
+                selectedContact.PhoneNumber = tb_PhoneNumber.Text;
+                selectedContact.StreetName = tb_StreetName.Text;
+                selectedContact.PostalCode = tb_PostalCode.Text;
+                selectedContact.City = tb_City.Text;
+                file.Save();
+            }
+
+            tb_FirstName.Text = string.Empty;
+            tb_LastName.Text = string.Empty;
+            tb_Email.Text = string.Empty;
+            tb_PhoneNumber.Text = string.Empty;
+            tb_StreetName.Text = string.Empty;
+            tb_PostalCode.Text = string.Empty;
+            tb_City.Text = string.Empty;
+
         }
     }
 }

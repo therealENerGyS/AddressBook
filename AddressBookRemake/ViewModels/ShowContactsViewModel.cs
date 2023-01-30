@@ -1,15 +1,20 @@
-﻿using AddressBook.Services;
-using AddressBookWPF.MVVM.Models;
+﻿using AddressBookRemake.Models;
+using AddressBookRemake.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
 
-namespace AddressBookWPF.MVVM.ViewModels
+namespace AddressBookRemake.ViewModels
 {
     public partial class ShowContactsViewModel : ObservableObject
     {
         private readonly FileService file;
+
+        [ObservableProperty]
+        private ObservableCollection<Contact> contacts = new();
 
         public ShowContactsViewModel()
         {
@@ -19,9 +24,6 @@ namespace AddressBookWPF.MVVM.ViewModels
 
         [ObservableProperty]
         private string title = "Contact List";
-
-        [ObservableProperty]
-        private ObservableCollection<ContactModel> contacts = new();
 
         [ObservableProperty]
         private string firstName = string.Empty;
@@ -37,20 +39,5 @@ namespace AddressBookWPF.MVVM.ViewModels
         private string postalCode = string.Empty;
         [ObservableProperty]
         private string city = string.Empty;
-
-
-        [RelayCommand]
-        private void RemoveContact(ContactModel contact)
-        {
-            MessageBox.Show($"Are you sure you wish to delete this contact: {contact.DisplayName}");
-            file.RemoveFromList(contact);
-        }
-
-        [RelayCommand]
-        private void UpdateContact(ContactModel contact)
-        {
-            MessageBox.Show($"Are you sure you wish to update this contact: {contact.DisplayName}");
-            file.EditFromList(contact);
-        }
     }
 }
