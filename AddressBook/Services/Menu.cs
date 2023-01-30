@@ -503,7 +503,6 @@ namespace AddressBook.Services
                         Console.Clear();
                         Console.WriteLine("The Contact has been removed.");
                         Console.ReadKey();
-
                         break;
                     }
                     else if (Console.ReadKey().Key == ConsoleKey.N)
