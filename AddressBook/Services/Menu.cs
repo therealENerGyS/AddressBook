@@ -3,20 +3,15 @@ using Newtonsoft.Json;
 
 namespace AddressBook.Services
 {
-    internal class Menu
+    public class Menu
     {
+        public List<Contact> Contacts { get; set; } = null!;
         private List<Contact> contacts = new();
         private readonly FileService file = new();
         public string FilePath { get; set; } = null!;
 
         public void MainMenu()
         {
-            try
-            {
-                using var sr = new StreamReader(FilePath);
-                contacts = JsonConvert.DeserializeObject<List<Contact>>(sr.ReadToEnd())!;
-            }
-            catch { contacts = new List<Contact>(); }
             Console.Write("Welcome to the Address book, please choose one of the following: \n" +
             "1. Create a Contact. \n" +
             "2. Display all Contacts. \n" +
@@ -73,9 +68,6 @@ namespace AddressBook.Services
             contact.City = Console.ReadLine()!;
             contacts.Add(contact);
 
-            using var sw = new StreamWriter(FilePath);
-            sw.WriteLine(JsonConvert.SerializeObject(contacts));
-
             Console.WriteLine($"{contact.FirstName} {contact.LastName} was successfully added to the address book.");
             Console.ReadKey();
             Console.Clear();
@@ -83,13 +75,6 @@ namespace AddressBook.Services
 
         private void OptionTwo()
         {
-            try
-            {
-                using var sr = new StreamReader(FilePath);
-                contacts = JsonConvert.DeserializeObject<List<Contact>>(sr.ReadToEnd())!;
-            }
-            catch { contacts = new List<Contact>(); }
-
             Console.WriteLine("Showing all Contacts.");
             if (contacts != null)
             {
@@ -497,8 +482,7 @@ namespace AddressBook.Services
                     {
                         contacts.Remove(removeSameFirstName[i]);
 
-                        using var sw = new StreamWriter(FilePath);
-                        sw.WriteLine(JsonConvert.SerializeObject(contacts));
+                        file.Save();
 
                         Console.Clear();
                         Console.WriteLine("The Contact has been removed.");

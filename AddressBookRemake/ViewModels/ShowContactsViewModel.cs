@@ -14,7 +14,7 @@ namespace AddressBookRemake.ViewModels
         private readonly FileService file;
 
         [ObservableProperty]
-        private ObservableCollection<Contact> contacts = new();
+        private ObservableCollection<Contact> contacts;
 
         public ShowContactsViewModel()
         {

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AddressBook.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,22 +10,22 @@ namespace AddressBook.Services
 {
     internal class FileService
     {
-        public void Save(string filePath, string content)
+        private List<Contact> contacts = new();
+        private string filePath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\ConsoleContacts.json";
+
+        public void Save()
         {
             using var sw = new StreamWriter(filePath);
-            sw.WriteLine(content);
+            sw.WriteLine(JsonConvert.SerializeObject(contacts));
         }
-        public string Read(string filePath)
+        public void Read()
         {
             try
             {
                 using var sr = new StreamReader(filePath);
-                return sr.ReadToEnd();
+                contacts = JsonConvert.DeserializeObject<List<Contact>>(sr.ReadToEnd())!;
             }
-            catch
-            {
-                return null!;
-            }
+            catch { contacts = new List<Contact>(); }
         }
     }
 }

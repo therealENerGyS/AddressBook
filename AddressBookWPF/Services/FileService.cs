@@ -13,7 +13,7 @@ namespace AddressBook.Services
     public class FileService
     {
         private readonly string filePath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\content.json";
-        private List<ContactModel> contacts;
+        private List<ContactModel> contacts = new();
 
         public FileService() => Read();
 

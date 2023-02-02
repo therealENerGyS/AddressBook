@@ -38,7 +38,7 @@
             <TextBlock x:Name="tb_City" Text="{Binding City}" FontSize="22" FontWeight="Medium" />
             <StackPanel Orientation="Horizontal">
                 <Button x:Name="btn_Remove" Content="Remove Contact" Padding="8" Click="Btn_Remove_Click"  />
-                <Button x:Name="btn_Edit" Content="Edit Contact" Padding="8" Click="Btn_Edit_Click" />
+                <Button x:Name="btn_Edit" Content="Edit Contact" Padding="8"  />
             </StackPanel>
         </StackPanel>
     </Grid>

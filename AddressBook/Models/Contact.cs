@@ -1,6 +1,6 @@
 ﻿namespace AddressBook.Models
 {
-    internal class Contact
+    public class Contact
     {
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;

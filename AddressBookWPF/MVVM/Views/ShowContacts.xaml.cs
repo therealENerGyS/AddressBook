@@ -12,7 +12,7 @@ namespace AddressBookWPF.MVVM.Views
     /// </summary>
     public partial class ShowContacts : UserControl
     {
-        private readonly FileService file;
+        private readonly FileService file = new();
         public ShowContacts()
         {
             InitializeComponent();

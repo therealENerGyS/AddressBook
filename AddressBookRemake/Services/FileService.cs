@@ -14,11 +14,14 @@ namespace AddressBookRemake.Services
     public class FileService
     {
         private readonly string path = $@"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\contacts.json";
-        private List<Contact> contacts;
+        private List<Contact> contacts = new();
 
-        public FileService() => ReadFromFile();
+        public FileService()
+        {
+            ReadFromFile();
+        }
 
-        private void ReadFromFile()
+        public void ReadFromFile()
         {
             try
             {
