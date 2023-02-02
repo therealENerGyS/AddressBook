@@ -21,7 +21,7 @@
 
         <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Title}" FontSize="22" FontWeight="Medium" Margin="0 0 0 30" />
 
-        <ListView x:Name="lv_ContactList" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Contacts}" SelectionChanged="Lv_ContactList_SelectionChanged">
+        <ListView x:Name="Lv_ContactList" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Contacts}" SelectionChanged="Lv_ContactList_SelectionChanged">
             <ListView.ItemTemplate>
                 <DataTemplate DataType="{x:Type models:Contact}">
                     <TextBlock Text="{Binding DisplayName}" />
@@ -37,7 +37,7 @@
             <TextBlock x:Name="tb_PostalCode" Text="{Binding PostalCode}" FontSize="22" FontWeight="Medium" />
             <TextBlock x:Name="tb_City" Text="{Binding City}" FontSize="22" FontWeight="Medium" />
             <StackPanel Orientation="Horizontal">
-                <Button x:Name="btn_Remove" Content="Remove Contact" Padding="8" Click="Btn_Remove_Click"  />
+                <Button x:Name="btn_Remove" Content="Remove Contact" Padding="8" Click="btn_Remove_Click" />
                 <Button x:Name="btn_Edit" Content="Edit Contact" Padding="8"  />
             </StackPanel>
         </StackPanel>

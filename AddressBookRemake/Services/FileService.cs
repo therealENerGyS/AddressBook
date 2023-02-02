@@ -14,7 +14,7 @@ namespace AddressBookRemake.Services
     public class FileService
     {
         private readonly string path = $@"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\contacts.json";
-        private List<Contact> contacts = new();
+        private ObservableCollection<Contact> contacts = new();
 
         public FileService()
         {
@@ -26,9 +26,9 @@ namespace AddressBookRemake.Services
             try
             {
                 using var sr = new StreamReader(path);
-                contacts = JsonConvert.DeserializeObject<List<Contact>>(sr.ReadToEnd())!;
+                contacts = JsonConvert.DeserializeObject<ObservableCollection<Contact>>(sr.ReadToEnd())!;
             }
-            catch { contacts = new List<Contact>(); }
+            catch { contacts = new ObservableCollection<Contact>(); }
         }
 
         public ObservableCollection<Contact> Contacts()
@@ -43,6 +43,8 @@ namespace AddressBookRemake.Services
         {
             using var sw = new StreamWriter(path);
             sw.WriteLine(JsonConvert.SerializeObject(contacts));
+
+            ReadFromFile();
         }
 
         public void AddToList(Contact contact)

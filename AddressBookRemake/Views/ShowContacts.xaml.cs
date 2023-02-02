@@ -27,13 +27,14 @@ namespace AddressBookRemake.Views
         public ShowContacts()
         {
             InitializeComponent();
+            Lv_ContactList.ItemsSource = file.Contacts();
         }
 
         private void Lv_ContactList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            foreach (Contact item in lv_ContactList.Items)
+            foreach (Contact item in Lv_ContactList.Items)
             {
-                if (lv_ContactList.SelectedItem == item)
+                if (Lv_ContactList.SelectedItem == item)
                 {
                     tb_FirstName.Text = item.FirstName;
                     tb_LastName.Text = item.LastName;
@@ -46,12 +47,13 @@ namespace AddressBookRemake.Views
             }
         }
 
-        private void Btn_Remove_Click(object sender, RoutedEventArgs e)
+        private void btn_Remove_Click(object sender, RoutedEventArgs e)
         {
-            var button = (Button)sender;
-            var contact = (Contact)button.DataContext;
+            var contact = (Contact)Lv_ContactList.SelectedItem;
 
             file.RemoveFromList(contact);
+
+            Lv_ContactList.ItemsSource = file.Contacts();
         }
     }
 }
