@@ -1,24 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AddressBookWPF.MVVM.Models
+namespace AddressBookRemake.Models
 {
-    public interface IContact
+    public class Contact
     {
-        string FirstName { get; set; }
-        string LastName { get; set; }
-        string Email { get; set; }
-        string PhoneNumber { get; set; }
-        string StreetName { get; set; }
-        string City { get; set; }
-        string PostalCode { get; set; }
-
-    }
-    public class ContactModel : IContact
-    {
+        public Guid Id { get; set; } = Guid.NewGuid();
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
         public string Email { get; set; } = null!;

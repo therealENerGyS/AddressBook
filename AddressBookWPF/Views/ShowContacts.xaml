@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="AddressBookRemake.Views.ShowContacts"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AddressBookRemake.Views"
+             xmlns:viewmodel="clr-namespace:AddressBookRemake.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodel:ShowContactsViewModel}"
+             xmlns:models="clr-namespace:AddressBookRemake.Models"
+             mc:Ignorable="d" 
+             d:DesignHeight="625" d:DesignWidth="750"
+             Height="625" Width="750">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Title}" HorizontalAlignment="Left" FontSize="22" FontWeight="Medium" Margin="10 15 0 15" />
+
+        <ListView x:Name="Lv_ContactList" Grid.Column="0" Grid.Row="1" Margin="10 0 10 10" ItemsSource="{Binding Contacts}" SelectionChanged="Lv_ContactList_SelectionChanged">
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="{x:Type models:Contact}">
+                    <TextBlock Text="{Binding DisplayName}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <StackPanel Grid.Column="1" Grid.Row="1" Margin="10 0 10 10" Background="White">
+            <StackPanel Orientation="Vertical" Margin="0 0 0 5">
+                <Label x:Name="l_FirstName" Content="First name:" FontSize="18" Padding="0"/>
+                <TextBox x:Name="tb_FirstName" Text="{Binding FirstName}" IsReadOnly="True" BorderThickness="0" VerticalContentAlignment="Center" FontSize="20" FontWeight="SemiBold" />
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="0 0 0 5">
+                <Label x:Name="l_LastName" Content="Last name:" FontSize="18" Padding="0"/>
+                <TextBox x:Name="tb_LastName" Text="{Binding LastName}" IsReadOnly="True" BorderThickness="0" VerticalContentAlignment="Center" FontSize="20" FontWeight="SemiBold" />
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="0 0 0 5">
+                <Label x:Name="l_Email" Content="Email:" FontSize="18" Padding="0" />
+                <TextBox x:Name="tb_Email" Text="{Binding Email}" IsReadOnly="True" BorderThickness="0" VerticalContentAlignment="Center" FontSize="20" FontWeight="SemiBold" />
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="0 0 0 5">
+                <Label x:Name="l_PhoneNumber" Content="Phone number:" FontSize="18" Padding="0" />
+                <TextBox x:Name="tb_PhoneNumber" Text="{Binding PhoneNumber}" IsReadOnly="True" BorderThickness="0" VerticalContentAlignment="Center" FontSize="20" FontWeight="SemiBold" />
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="0 0 0 5">
+                <Label x:Name="l_StreetName" Content="Street name:" FontSize="18" Padding="0" />
+                <TextBox x:Name="tb_StreetName" Text="{Binding StreetName}" IsReadOnly="True" BorderThickness="0" VerticalContentAlignment="Center" FontSize="20" FontWeight="SemiBold" />
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="0 0 0 5">
+                <Label x:Name="l_PostalCode" Content="Postal code:" FontSize="18" Padding="0" />
+                <TextBox x:Name="tb_PostalCode" Text="{Binding PostalCode}" IsReadOnly="True" BorderThickness="0" VerticalContentAlignment="Center" FontSize="20" FontWeight="SemiBold" />
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <Label x:Name="l_City" Content="City:" FontSize="18" Padding="0" />
+                <TextBox x:Name="tb_City" Text="{Binding City}" IsReadOnly="True" BorderThickness="0" VerticalContentAlignment="Center" FontSize="20" FontWeight="SemiBold" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10 0 0">
+                <Button x:Name="btn_Remove" Content="Remove Contact" Padding="8" Margin="0 0 15 0" Click="Btn_Remove_Click">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="7" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="btn_Edit" Content="Edit Contact" Padding="8" Margin="15 0 0 0" Click="Btn_Edit_Click">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="7" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="btn_Cancel" Content="Cancel" Padding="8" Margin="0 0 15 0" Click="Btn_Cancel_Click">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="7" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="btn_Confirm" Content="Confirm" Padding="8"  Click="Btn_Confirm_Click">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="7" />
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

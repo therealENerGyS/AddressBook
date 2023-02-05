@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="AddressBookRemake.Views.CreateContact"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AddressBookRemake.Views"
+             xmlns:viewmodels="clr-namespace:AddressBookRemake.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:CreateContactViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="400">
+    <Grid Margin="20" Width="250">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="{Binding Title}" HorizontalAlignment="Center" FontSize="22" FontWeight="Medium" Margin="0 0 0 20" />
+
+        <StackPanel Grid.Row="1">
+            <TextBlock Text="First Name" HorizontalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
+            <TextBox x:Name="tb_FirstName" Text="{Binding FirstName}" FontSize="20" FontWeight="SemiBold"/>
+            <TextBlock Text="Last Name" HorizontalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
+            <TextBox x:Name="tb_LastName" Text="{Binding LastName}" FontSize="20" FontWeight="SemiBold" />
+            <TextBlock Text="Email" HorizontalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
+            <TextBox x:Name="tb_Email" Text="{Binding Email}" FontSize="20" FontWeight="SemiBold" />
+            <TextBlock Text="Phone Number" HorizontalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
+            <TextBox x:Name="tb_PhoneNumber" Text="{Binding PhoneNumber}" FontSize="20" FontWeight="SemiBold" />
+            <TextBlock Text="Street Name" HorizontalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
+            <TextBox x:Name="tb_StreetName" Text="{Binding StreetName}" FontSize="20" FontWeight="SemiBold" />
+            <TextBlock Text="Postal Code" HorizontalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
+            <TextBox x:Name="tb_PostalCode" Text="{Binding PostalCode}" FontSize="20" FontWeight="SemiBold" />
+            <TextBlock Text="City" HorizontalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
+            <TextBox x:Name="tb_City" Text="{Binding City}" FontSize="20" FontWeight="SemiBold" />
+            <Button Content="Create Contact" Padding="8" FontSize="18" FontWeight="SemiBold" BorderThickness="0" Margin="0 10 0 0" Click="Btn_Create_Click">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="7" />
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

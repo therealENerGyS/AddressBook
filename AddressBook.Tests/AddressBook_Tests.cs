@@ -9,13 +9,29 @@ namespace AddressBook.Tests
         [TestMethod]
         public void Should_Add_Contact_To_List()
         {
-            Menu menu = new Menu();
-            menu.Contacts = new List<Contact>();
-            Contact contact = new Contact();
+            Menu menu = new()
+            {
+                Contacts = new()
+            };
+            Contact contact = new();
 
             menu.Contacts.Add(contact);
 
             Assert.AreEqual(1, menu.Contacts.Count);
+        }
+
+        public void Should_Remove_Contact_From_List()
+        {
+            Menu menu = new()
+            {
+                Contacts = new()
+            };
+            Contact contact = new();
+            menu.Contacts.Add(contact);
+
+            menu.Contacts.Remove(contact);
+
+            Assert.AreEqual(1, menu.Contacts.Count - 1);
         }
     }
 }

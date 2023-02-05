@@ -1,49 +1,54 @@
-﻿using AddressBookWPF.MVVM.Models;
+﻿using AddressBookRemake.Models;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Windows;
 
-namespace AddressBook.Services
+namespace AddressBookRemake.Services
 {
     public class FileService
     {
-        private readonly string filePath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\content.json";
-        private List<ContactModel> contacts = new();
+        private readonly string path = $@"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\contacts.json";
+        private ObservableCollection<Contact> contacts = new();
 
-        public FileService() => Read();
+        public FileService()
+        {
+            ReadFromFile();
+        }
 
-        private void Read()
+        public void ReadFromFile()
         {
             try
             {
-                using var sr = new StreamReader(filePath);
-                contacts = JsonConvert.DeserializeObject<List<ContactModel>>(sr.ReadToEnd())!;
+                using var sr = new StreamReader(path);
+                contacts = JsonConvert.DeserializeObject<ObservableCollection<Contact>>(sr.ReadToEnd())!;
             }
-            catch { contacts = new List<ContactModel>(); }
+            catch { contacts = new ObservableCollection<Contact>(); }
         }
 
-        public void Save()
+        public ObservableCollection<Contact> Contacts()
         {
-            using var sw = new StreamWriter(filePath);
+            var items = new ObservableCollection<Contact>();
+            foreach (var contact in contacts)
+                items.Add(contact);
+            return items;
+        }
+
+        public void SaveToFile()
+        {
+            using var sw = new StreamWriter(path);
             sw.WriteLine(JsonConvert.SerializeObject(contacts));
         }
-        public void AddToList(ContactModel contact)
+
+        public void AddToList(Contact contact)
         {
             contacts.Add(contact);
-            Save();
-        }
-        public void RemoveFromList(ContactModel contact)
-        {
-            contacts.Remove(contact);
-            Save();
+            SaveToFile();
         }
 
-        public void EditFromList(ContactModel contact)
+        public void EditFromList(Contact contact)
         {
             var editContact = contacts.FirstOrDefault(x => x.FirstName == contact.FirstName && x.LastName == contact.LastName);
             if (editContact != null)
@@ -54,18 +59,16 @@ namespace AddressBook.Services
                 editContact.PhoneNumber = contact.PhoneNumber;
                 editContact.PostalCode = contact.PostalCode;
                 editContact.City = contact.City;
-                Save();
+                SaveToFile();
             }
             else
                 MessageBox.Show("Could not find contact.");
         }
 
-        public ObservableCollection<ContactModel> Contacts()
+        public void RemoveFromList(Contact contact)
         {
-            var items = new ObservableCollection<ContactModel>();
-            foreach (var contact in contacts)
-                items.Add(contact);
-            return items;
+            contacts.Remove(contact);
+            SaveToFile();
         }
     }
 }

@@ -1,11 +1,7 @@
 ﻿using AddressBookRemake.Models;
 using AddressBookRemake.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using System;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Windows;
 
 namespace AddressBookRemake.ViewModels
 {

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AddressBook", "AddressBook\AddressBook.csproj", "{8B91C8A6-9B55-4AC1-9335-350280F593DD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AddressBookRemake", "AddressBookRemake\AddressBookRemake.csproj", "{6F6719FE-4692-49A4-8A49-CFCD9C356B15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AddressBookWPF", "AddressBookWPF\AddressBookWPF.csproj", "{6F6719FE-4692-49A4-8A49-CFCD9C356B15}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AddressBook.Tests", "AddressBook.Tests\AddressBook.Tests.csproj", "{0AD6412E-ACED-4120-AFCE-DA69DB8E6B9D}"
 EndProject
